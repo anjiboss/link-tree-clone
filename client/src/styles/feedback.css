@@ -1,0 +1,55 @@
+.fb-container {
+  min-height: 40px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.fb-container:hover {
+  background-color: beige;
+}
+
+.fb-title {
+  font-size: 15px;
+}
+
+p {
+  margin: 5px;
+}
+
+.feedback {
+  min-height: 60vh;
+  border: 1px solid black;
+  padding: 5px 10px 30px 10px;
+  margin: 20px auto 50px auto;
+  border-radius: 5px;
+}
+
+.fb-comment {
+  border: 1px solid #3498db;
+  border-radius: 7px;
+  margin: 10px;
+}
+
+.fb-comment-option-bar {
+  border: none;
+  border-bottom: 1px solid #3498db;
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-text {
+  padding: 15px;
+  font-size: 11pt;
+  min-height: 50px;
+}
+.fb-info {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+}
