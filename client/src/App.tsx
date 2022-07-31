@@ -12,8 +12,8 @@ import { ToastContainer } from "react-toastify";
 import { toasti } from "./ultis/_visual";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from "./pages/NotFound";
-import Member from "./pages/Member";
 import DashBoard from "./pages/DashBoard";
+import LinkView from "./components/LinkView";
 
 function App() {
   const [isFetching, setIsFetching] = useState(true);
@@ -54,7 +54,7 @@ function App() {
             <Route path="/" element={<DashBoard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignIn />} />
-            <Route path="/*" element={<Member />} />
+            <Route path="/*" element={<LinkView />} />
             <Route path="/not-found" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
