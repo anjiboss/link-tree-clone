@@ -39,6 +39,8 @@ model Member {
   id        String  @id @default(uuid())
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String  @unique
+  firstname String
+  lastname  String
   username  String  @unique
   links     Link[]
 }

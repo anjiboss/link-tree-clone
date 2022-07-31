@@ -33,7 +33,7 @@ router.get("/", tokenVerify, async (req, res) => {
   });
 
   if (!user) {
-    return new ResponseObject(res, false, 404, "User not found");
+    return new ResponseObject(res, false, 404, "Authorization problem!");
   }
 
   // User have member record
@@ -45,6 +45,8 @@ router.get("/", tokenVerify, async (req, res) => {
   const newMemberRecord: Member = await prisma.member.create({
     data: {
       username: user.username,
+      firstname: user.firstname || "",
+      lastname: user.lastname || "",
       profile: {
         connect: {
           id: user.id,
@@ -70,7 +72,7 @@ router.get("/show/:username", async (req, res) => {
         links: Link[];
       })
     | null;
-  const user: MemberWithLink = await prisma.member.findFirst({
+  const member: MemberWithLink = await prisma.member.findFirst({
     where: {
       username,
     },
@@ -79,12 +81,16 @@ router.get("/show/:username", async (req, res) => {
     },
   });
 
-  if (user) {
-    return new ResponseObject(res, true, 200, "success", { user });
+  if (member) {
+    return new ResponseObject(res, true, 200, "success", {
+      member: { ...member, profileId: null },
+    });
   } else {
     return new ResponseObject(res, false, 404, "User not found");
   }
 });
+
+// SECTION LINK
 
 /**
  * _POST Add Link to Member
@@ -127,6 +133,22 @@ router.put("/link/:linkId", tokenVerify, async (req, res) => {
   const linkName = req.body.linkName;
   const link = req.body.link;
 
+  // Check if this link owned by this user
+  const member = await prisma.member.findFirst({
+    where: {
+      profileId: req.profile.id,
+      links: {
+        some: {
+          id: linkId,
+        },
+      },
+    },
+  });
+
+  if (!member) {
+    return new ResponseObject(res, false, 400, "You can't edit other's link");
+  }
+
   const updatedLink: Link = await prisma.link.update({
     where: {
       id: linkId,
@@ -139,5 +161,43 @@ router.put("/link/:linkId", tokenVerify, async (req, res) => {
 
   return new ResponseObject(res, true, 200, "Updated", { updatedLink });
 });
+
+/**
+ * _DEL Remove link from Member
+ * Route /api/v1/member/link/:linkId
+ */
+router.delete("/link/:linkId", tokenVerify, async (req, res) => {
+  const linkId = req.params.linkId;
+
+  // Check if this link owned by this user
+  const member = await prisma.member.findFirst({
+    where: {
+      profileId: req.profile.id,
+      links: {
+        some: {
+          id: linkId,
+        },
+      },
+    },
+  });
+
+  if (!member) {
+    return new ResponseObject(res, false, 400, "You can't delete other's link");
+  }
+
+  try {
+    await prisma.link.delete({
+      where: {
+        id: linkId,
+      },
+    });
+    return new ResponseObject(res, true, 200, "Success");
+  } catch (error) {
+    console.log(error);
+    return new ResponseObject(res, false, 400, "Not deleted");
+  }
+});
+
+// !SECTION
 
 export { router as memberRouter };
