@@ -21,8 +21,10 @@ const LoginForm: React.FC = () => {
       },
     })
       .then(({ data, status }) => {
-        console.log(data);
+        console.log("Login success");
         if (status === 200) {
+          //Should be deleted
+          console.log(data.accessToken);
           window.localStorage.setItem("accessToken", data.accessToken);
           window.localStorage.setItem("refreshToken", data.refreshToken);
           toasti("Log in success");
@@ -30,9 +32,10 @@ const LoginForm: React.FC = () => {
           navigate("/");
         }
       })
-      .catch((e: AxiosError) => {
+      .catch((e: AxiosError<{ message: string }>) => {
         if (e.response) {
           console.log(e.response.data);
+          toasti(e.response.data?.message, "error");
         }
       });
   };

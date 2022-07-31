@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./styles/App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignIn from "./pages/SignIn";
 import NavBar from "./components/NavBar";
@@ -12,6 +11,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { toasti } from "./ultis/_visual";
 import "react-toastify/dist/ReactToastify.css";
+import NotFound from "./pages/NotFound";
+import Member from "./pages/Member";
+import DashBoard from "./pages/DashBoard";
 
 function App() {
   const [isFetching, setIsFetching] = useState(true);
@@ -27,9 +29,7 @@ function App() {
       },
     })
       .then(({ data }) => {
-        setTimeout(() => {
-          setIsFetching(false);
-        }, 1000); // test loading icon - remove setTimeout for instant load
+        setIsFetching(false);
         if (data.success) {
           setLogged(true);
         }
@@ -51,9 +51,11 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignIn />} />
+            <Route path="/*" element={<Member />} />
+            <Route path="/not-found" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       )}
