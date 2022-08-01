@@ -38,7 +38,9 @@ router.get("/", tokenVerify, async (req, res) => {
 
   // User have member record
   if (user.member) {
-    return new ResponseObject(res, true, 200, "Success");
+    return new ResponseObject(res, true, 200, "Success", {
+      member: user.member,
+    });
   }
 
   // User Don't have Member Record. Let's create new one

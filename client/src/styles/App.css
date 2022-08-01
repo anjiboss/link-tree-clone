@@ -54,13 +54,27 @@ button {
   align-items: center;
 }
 
-/* ANCHOR LINK */
-.link {
-  width: 60vw;
-  height: 60px;
+/* ANCHOR DASH BOARD */
+.dashboard {
+  width: 100%;
+  height: 92vh;
+  display: flex;
+  padding: 0px 20px;
 }
 
-.anchor {
-  width: 100%;
+.left-view {
+  width: 60%;
+}
+
+.right-view {
+  width: 40%;
   height: 100%;
+  border-left: 1px solid #3077be;
+}
+
+.link-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

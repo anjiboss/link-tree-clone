@@ -8,7 +8,7 @@ interface DefaultStyle {
 
 export const defaultStyle: DefaultStyle = {
   link: {
-    width: "60vw",
+    width: "60%",
     height: "60px",
     overflowWrap: "break-word",
     wordBreak: "break-word",
